@@ -12,6 +12,21 @@ class TestSafePrint(unittest.TestCase):
     Test safe print
     """
 
+    def test_safe_print_strip(self) -> None:
+        """
+        Test if stripping whitespace characters is disabled.
+        """
+        cases = [
+            (" \n ", " \n "),
+            ("\n", "\n"),
+            ("a\n", "a\n"),
+            ("", ""),
+        ]
+        for text, result in cases:
+            with self.subTest(text=text, result=result):
+                self.assertEqual(safe_print(text),
+                                 result)
+
 
     def test_safe_print_esc(self) -> None:
         """
@@ -116,6 +131,7 @@ class TestSafePrint(unittest.TestCase):
             ("\x1b[38;5;30m", "\x1b[38;5;30m"),
             ("\x1b[0;;;30;;;38;5;0m", "_[0;;;30;;;38;5;0m"),
             ("\x1b[38;2;0;30;0m", "\x1b[38;2;0;30;0m"),
+            ("\x1b[38;2;0;30;30m", "_[38;2;0;30;30m"),
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
