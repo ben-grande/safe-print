@@ -113,7 +113,7 @@ def get_color_pattern(extra_colors: Optional[bool],
     return re.compile(sgr_re)
 
 
-def safe_print(untrusted_text: str,
+def stprint(untrusted_text: str,
                colors: Optional[bool] = True,
                extra_colors: Optional[bool] = True,
                exclude_colors: Optional[list[str]] = None,
@@ -143,15 +143,15 @@ def safe_print(untrusted_text: str,
     Examples
     --------
     Redact unsafe sequences by default:
-    >>> safe_print("\x1b[2Jvulnerable: True\b\b\b\bFalse")
+    >>> stprint("\x1b[2Jvulnerable: True\b\b\b\bFalse")
     _[2Jvulnerable: True____False
 
     Redact all colors:
-    >>> safe_print("\x1b[38;5;0m\x1b[31m\x1b[38;2;0;0;0m", colors=False)
+    >>> stprint("\x1b[38;5;0m\x1b[31m\x1b[38;2;0;0;0m", colors=False)
     _[38;5;0m_[31m_[38;2;0;0;0m
 
     Allow colors but not extra colors bigger than 4bit:
-    >>> safe_print("\x1b[38;5;0m\x1b[31m\x1b[38;2;0;0;0m", colors=True,
+    >>> stprint("\x1b[38;5;0m\x1b[31m\x1b[38;2;0;0;0m", colors=True,
     ...            extra_colors=False)
     _[38;5;0m\x1b[31m_[38;2;0;0;0m
     """
@@ -191,24 +191,24 @@ def main() -> None:
     Examples
     --------
     Printing variables or normal strings with escape interpreted:
-    $ safe_print.py "$(printf '%b' "${untrusted_string}\033[2K")"
+    $ stprint.py "$(printf '%b' "${untrusted_string}\033[2K")"
 
     Printing with heredoc to avoid quoting problems (remember to interpret the
     escapes before creating the heredoc):
-    $ safe_print.py <<EOF
+    $ stprint.py <<EOF
     > DATA
     > EOF
 
     Printing sdout and stderr of a command:
-    $ untrusted-cmd 2>&1 | safe_print.py
-    $ safe_print.py < <(untrusted-cmd 2>&1)
+    $ untrusted-cmd 2>&1 | stprint.py
+    $ stprint.py < <(untrusted-cmd 2>&1)
 
     Printing ownership readable file with stdin redirection:
-    $ safe_print.py < /untrusted/file < /untrusted/log
+    $ stprint.py < /untrusted/file < /untrusted/log
 
     Printing a ownership restricted file with external programs:
-    $ sudo -- cat -- /untrusted/log | safe_print.py
-    $ safe_print.py < <(sudo -- cat -- /untrusted/log)
+    $ sudo -- cat -- /untrusted/log | stprint.py
+    $ stprint.py < <(sudo -- cat -- /untrusted/log)
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("untrusted_text", nargs=argparse.REMAINDER,
@@ -220,7 +220,7 @@ def main() -> None:
     else:
         untrusted_text = sys.stdin.read().strip("")
 
-    print(safe_print(untrusted_text), end="")
+    print(stprint(untrusted_text), end="")
 
 
 if __name__ == "__main__":

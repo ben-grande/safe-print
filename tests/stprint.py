@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Test the safe_print module.
+Test the stprint module.
 """
 
 import unittest
-from safe_print import safe_print
+from stprint import stprint
 
 
 class TestSafePrint(unittest.TestCase):
@@ -12,7 +12,7 @@ class TestSafePrint(unittest.TestCase):
     Test safe print
     """
 
-    def test_safe_print_strip(self) -> None:
+    def test_stprint_strip(self) -> None:
         """
         Test if stripping whitespace characters is disabled.
         """
@@ -24,11 +24,11 @@ class TestSafePrint(unittest.TestCase):
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
-                self.assertEqual(safe_print(text),
+                self.assertEqual(stprint(text),
                                  result)
 
 
-    def test_safe_print_esc(self) -> None:
+    def test_stprint_esc(self) -> None:
         """
         Test ESC sequence
         """
@@ -57,11 +57,11 @@ class TestSafePrint(unittest.TestCase):
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
-                self.assertEqual(safe_print(text),
+                self.assertEqual(stprint(text),
                                  result)
 
 
-    def test_safe_print_color(self) -> None:
+    def test_stprint_color(self) -> None:
         """
         Test with colors.
         """
@@ -80,12 +80,12 @@ class TestSafePrint(unittest.TestCase):
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
-                self.assertEqual(safe_print(text, colors=True,
+                self.assertEqual(stprint(text, colors=True,
                                             extra_colors=True),
                                  result)
 
 
-    def test_safe_print_no_extra_color(self) -> None:
+    def test_stprint_no_extra_color(self) -> None:
         """
         Test disabling extra colors.
         """
@@ -96,12 +96,12 @@ class TestSafePrint(unittest.TestCase):
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
-                self.assertEqual(safe_print(text, colors=True,
+                self.assertEqual(stprint(text, colors=True,
                                             extra_colors=False),
                                  result)
 
 
-    def test_safe_print_no_color(self) -> None:
+    def test_stprint_no_color(self) -> None:
         """
         Test disabling colors.
         """
@@ -112,12 +112,12 @@ class TestSafePrint(unittest.TestCase):
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
-                self.assertEqual(safe_print(text, colors=False,
+                self.assertEqual(stprint(text, colors=False,
                                             extra_colors=True),
                                  result)
 
 
-    def test_safe_print_no_specific_color(self) -> None:
+    def test_stprint_no_specific_color(self) -> None:
         """
         Test disabling specific colors.
         """
@@ -135,7 +135,7 @@ class TestSafePrint(unittest.TestCase):
         ]
         for text, result in cases:
             with self.subTest(text=text, result=result):
-                self.assertEqual(safe_print(text, colors=True,
+                self.assertEqual(stprint(text, colors=True,
                                             extra_colors=True,
                                             exclude_colors=["30", "37"]),
                                  result)
